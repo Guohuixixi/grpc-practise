@@ -1,0 +1,28 @@
+syntax = "proto3"; // 版本声明，使用Protocol Buffers v3版本
+
+option go_package = "hello_client/pb";  // 指定生成的Go代码在你项目中的导入路径
+
+package pb; // 包名
+
+
+// 定义服务
+service Greeter {
+    // SayHello 方法
+    rpc SayHello (HelloRequest) returns (HelloResponse) {}
+    //服务端返回流式数据
+    rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse){}
+    //客户端发送流式数据
+    rpc LotsOfGreetings(stream HelloRequest) returns (HelloResponse){}
+    //双向流式数据
+    rpc BidiHello(stream HelloRequest) returns (stream HelloResponse);
+}
+
+// 请求消息
+message HelloRequest {
+    string name = 1;
+}
+
+// 响应消息
+message HelloResponse {
+    string reply = 1;
+}
